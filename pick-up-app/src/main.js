@@ -7,6 +7,9 @@ import VueFire from 'vuefire'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+import store from './store'
+import Vuex from 'vuex'
+
 Vue.config.productionTip = false
 
 Vue.use(VueFire)
@@ -20,13 +23,15 @@ const settings = {
   timestampsInSnapshots: true,
 }
 firestore.settings(settings)
-
 export const db = firestore
+
+Vue.use(Vuex)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store: store,
 })

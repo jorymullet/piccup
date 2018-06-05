@@ -3,11 +3,11 @@ import { db } from '@/main.js'
 
 export default {
   name: 'VenueInfo',
-  props: {
-    venue: {
-      type: Object,
-    },
-  },
+  computed: {
+    venue () {
+      return this.$store.state.venue
+    }
+  }
 }
 </script>
 

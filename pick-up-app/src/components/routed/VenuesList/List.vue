@@ -8,11 +8,17 @@ export default {
       venues: [],
     }
   },
-  firestore () {
-    return {
-      venues: db.collection('venues').orderBy('name'),
-    }
+  methods: {
+    goToVenue (venueId) {
+      this.$store.commit('showLoading')
+      this.$store.commit('setVenue', venueId)
+      this.$router.push({name: 'Venue', params: {venueId: venueId}})
+    },
   },
+  mounted () {
+    this.$bind('venues', db.collection('venues'))
+      .then(() => {this.$store.commit('hideLoading')})
+  }
 }
 </script>
 
@@ -20,14 +26,12 @@ export default {
   #list-holder
     .list.row
       .col.s12.m8.offset-m2.l6.offset-l3
-        router-link(
+        .card.venue.click-me(
           v-for='(venue, idx) in venues'
-          :to='"/venues/"+venue.id'
-          :key='idx'
+          @click='goToVenue(venue.id)'
         )
-          .card.venue.click-me
-            .card-content
-              .card-title {{venue.name}}
+          .card-content
+            .card-title {{venue.name}}
 </template>
 
 <style scoped lang='scss'>

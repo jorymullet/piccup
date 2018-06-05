@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VenuesList from '@/components/routed/VenuesList/Venues'
-import Foundation from '@/components/common/Foundation'
 
+import Foundation from '@/components/common/Foundation'
+import VenuesList from '@/components/routed/VenuesList/Venues'
 import Venue from '@/components/routed/Venue/Venue'
+import ItemView from '@/components/routed/ItemView/ItemView'
 
 Vue.use(Router)
 

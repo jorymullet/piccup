@@ -8,15 +8,18 @@ export default {
     navigation: Navigation,
     list: List,
   },
+  mounted () {
+    this.$store.commit('showLoading')
+  }
 }
 </script>
 
 <template lang='pug'>
   #venues-list
-    navigation
+    navigation(title='Pick a venue')
     list
 </template>
 
-<style lang='scss'>
+<style scoped lang='scss'>
   @import 'vars';
 </style>
