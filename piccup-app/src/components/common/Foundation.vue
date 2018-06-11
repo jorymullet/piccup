@@ -7,6 +7,11 @@ export default {
     loading: Loading,
   },
   mounted () {
+    //allows for orders to be stored in localStorage while also automatically updating in the Store
+    this.$store.commit('updateOrders')
+    document.addEventListener('storageChange', () => {
+      this.$store.commit('updateOrders')
+    }, false)
     this.$router.push({name: 'VenuesList'})
   }
 }

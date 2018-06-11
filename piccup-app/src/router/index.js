@@ -4,12 +4,17 @@ import Router from 'vue-router'
 import Foundation from '@/components/common/Foundation'
 import VenuesList from '@/components/routed/VenuesList/Venues'
 import Venue from '@/components/routed/Venue/Venue'
-import ItemView from '@/components/routed/ItemView/ItemView'
+import Checkout from '@/components/routed/Checkout/Checkout'
 
+import store from '@/store'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
+  beforeEach: (to, from, next) => {
+    console.log('wow')
+    next()
+  },
   routes: [
     {
       path: '/',
@@ -26,7 +31,14 @@ export default new Router({
           name: 'Venue',
           component: Venue,
         },
+        {
+          path: '/venues/:venueId/checkout',
+          name: 'Checkout',
+          component: Checkout,
+        },
       ],
     },
   ],
 })
+
+export default router

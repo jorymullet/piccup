@@ -1,15 +1,15 @@
 <script>
-import { db } from '@/main.js'
 import { toDollars } from '@/global/helpers/currency.js'
+import { db } from '@/main.js'
 
 export default {
   name: 'Menu',
   computed: {
     categories () {
-      return this.$store.state.categories
+      return this.$store.state.menu.categories
     },
     items () {
-      return this.$store.state.items
+      return this.$store.state.menu.items
     },
   },
   methods: {
@@ -42,7 +42,7 @@ export default {
                   .variations-holder
                     .variation.click-me(
                       v-for='variation in item.variations'
-                      @click='goToItem(item.id, variation.id)'
+                      @click='goToItem(item, variation)'
                       )
                       .abbreviation {{variation.abbreviation}}
                       .amount {{toDollars(variation.amount)}}

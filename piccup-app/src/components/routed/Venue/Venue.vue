@@ -1,8 +1,10 @@
 <script>
+
 import Navigation from '@/components/common/Navigation'
+import OrderTracker from '@/components/common/OrderTracker'
 import VenueInfo from '@/components/common/VenueInfo'
-import Menu from '@/components/routed/Venue/Menu'
 import ItemView from '@/components/routed/Venue/ItemView'
+import Menu from '@/components/routed/Venue/Menu'
 
 import { db } from '@/main.js'
 
@@ -18,12 +20,16 @@ export default {
     'venue-info': VenueInfo,
     'venue-menu': Menu, // vue doesn't like it when I just use menu
     'item-view': ItemView,
+    'order-tracker': OrderTracker,
   },
   computed: {
     venue () {
       return this.$store.state.venue
     },
-  }
+  },
+  mounted () {
+    this.$store.commit('setVenue', this.$route.params.venueId)
+  },
 }
 </script>
 
@@ -32,10 +38,10 @@ export default {
     navigation(
       :title='venue.name'
       left_word='$back'
-      left_action='none'
       )
     venue-info
     venue-menu(@seeItemView='seeItemView = true')
+    order-tracker
     transition(name='slide-in')
       item-view(
         v-if='seeItemView'

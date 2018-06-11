@@ -11,7 +11,7 @@ export default {
   methods: {
     goToVenue (venueId) {
       this.$store.commit('showLoading')
-      this.$store.commit('setVenue', venueId)
+      //this.$store.commit('setVenue', venueId)
       this.$router.push({name: 'Venue', params: {venueId: venueId}})
     },
   },

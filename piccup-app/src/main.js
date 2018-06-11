@@ -27,6 +27,14 @@ export const db = firestore
 
 Vue.use(Vuex)
 
+//allows listening to changes in storage on set
+const originalSetItem = localStorage.setItem;
+localStorage.setItem = function() {
+  originalSetItem.apply(this, arguments);
+  const event = new Event('storageChange');
+  document.dispatchEvent(event);
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

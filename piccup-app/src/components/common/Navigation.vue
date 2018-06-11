@@ -14,9 +14,9 @@ export default {
   },
   methods: {
     goBack () {
-      console.log(this.left_action)
-      console.log(this.left_word)
-      //this.$router.back()
+      this.$store.commit('flashLoading', () => {
+        this.$router.back()
+      })
     },
   },
   mounted () {
@@ -28,7 +28,7 @@ export default {
 <template lang='pug'>
   nav
     .nav-wrapper
-      .back(
+      .back.click-me(
         v-if='left_word === "$back"'
         @click='left_action ? $emit(left_action) : goBack()'
         )
