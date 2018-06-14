@@ -1,0 +1,27 @@
+<template lang='pug'>
+  #app
+    router-view
+</template>
+
+<script>
+export default {
+  name: 'App'
+}
+</script>
+
+<style lang='sass'>
+html
+  height: 100%
+  overflow-x: hidden
+
+body
+  margin: 0
+  height: 100%
+  overflow-x: hidden
+
+#app
+  font-family: 'Avenir', Helvetica, Arial, sans-serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  height: 100%
+</style>
