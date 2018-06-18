@@ -18,12 +18,12 @@ body
   margin: 0
   height: 100%
   overflow-x: hidden
+  overflow-y: scroll
 
 #app
   font-family: 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  height: 100%
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button 

@@ -50,6 +50,8 @@ export default {
         font-size: .9em
     .comp-holder
       margin-top: 45px
+      max-height: calc(100vh - 200px)
+      overflow: scroll
       .comp
         width: 100%
         text-align: left

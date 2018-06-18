@@ -56,12 +56,12 @@ export default {
   @import 'vars'
   #create-shell
     background-color: $background-color
-    height: 100vh
+    height: calc(100%)
     width: 100%
     z-index: $create-shell-index
     position: fixed
     top: 0
+    overflow: scroll
     #create-comp-holder
       margin-top: $nav-height
-      height: calc(100% - #{$nav-height})
 </style>

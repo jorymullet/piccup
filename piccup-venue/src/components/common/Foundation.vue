@@ -19,6 +19,6 @@ export default {
 
 <style lang="sass" scoped>
   #foundation
-    height: 100%
+    min-height: 100%
 </style>
 

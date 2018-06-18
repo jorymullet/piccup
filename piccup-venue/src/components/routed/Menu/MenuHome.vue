@@ -42,7 +42,6 @@ export default {
       categories: [],
       venues: [],
       seeCreateShell: false,
-      isNew: false,
     }
   },
   firestore () {
@@ -65,6 +64,9 @@ export default {
     compTypeInfo () {
       return this.$store.state.compTypeInfo
     },
+    isNew () {
+      return this.$store.state.isNew
+    },
   },
   methods: {
     onTabClick (id) {
@@ -77,22 +79,25 @@ export default {
       this.$store.commit('setIsNew', options.new)
       M.updateTextFields()
     },
-    saveComp (compType) {
-      this.$firestore[this.compTypeInfo.id].add(this.editComp)
+    crudComp (type) {
+      if(type === 'create') {
+        this.$firestore[this.compTypeInfo.id].add(this.editComp)
+      }
+      else if(type === 'delete') {
+        this.$firestore[this.compTypeInfo.id].doc(this.editComp['.key']).delete()
+      }
+      else if(type === 'update') {
+        const key = this.editComp['.key']
+        delete this.editComp['.key']
+        this.$firestore[this.compTypeInfo.id].doc(key).update(this.editComp)
+      }
       this.seeCreateShell = false
-    },
-    deleteComp () {
-      this.$firestore[this.compTypeInfo.id].doc(this.editComp['.key']).delete()
-      this.seeCreateShell = false
-    },
+    }
   },
   created () {
     this.chosenCompType = this.compTypes[0]
-    bus.$on('saveComp', (compType) => {
-      this.saveComp(compType)
-    })
+    bus.$on('crudComp', this.crudComp)
     bus.$on('showCreateShell', this.showCreateShell)
-    bus.$on('deleteComp', this.deleteComp)
   },
 }
 </script>
@@ -139,7 +144,6 @@ export default {
     transform: translateX(-100%)
 
   #menu-home
-    height: 100%
     background-color: $background-color
     #comp-home-holder
       position: relative

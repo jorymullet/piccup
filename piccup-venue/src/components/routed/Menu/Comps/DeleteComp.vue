@@ -19,7 +19,7 @@ export default {
 
 <template lang="pug">
   .delete-comp(
-    @click='bus.$emit("deleteComp")'
+    @click='bus.$emit("crudComp", "delete")'
     v-if='!isNew'
   ) Delete {{compTypeInfo.short}}
 </template>
@@ -31,4 +31,5 @@ export default {
     text-align: center
     font-weight: 600
     color: $red
+    margin-bottom: 25px
 </style>

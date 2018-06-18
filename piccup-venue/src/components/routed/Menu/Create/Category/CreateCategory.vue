@@ -7,11 +7,6 @@ export default {
   components: {
     'delete-comp': DeleteComp,
   },
-  props: {
-    isNew: {
-      type: Boolean,
-    }
-  }, 
   computed: {
     category () {
       return this.$store.state.editComp
@@ -19,17 +14,24 @@ export default {
     shouldSave () {
       return !!this.category.name
     },
-    bus () {
-      return bus
+    isNew () {
+      return this.$store.state.isNew
     },
   },
   methods: {
-    onKeyup () {
+    sendSavability () {
       bus.$emit('savability', this.shouldSave)
     },
+    onSave () {
+      if (this.shouldSave) {
+        const saveType = this.isNew ? 'create' : 'update'
+        bus.$emit('crudComp', saveType)
+      }
+    }
   },
   mounted () {
-    this.onKeyup()
+    this.sendSavability()
+    this.$refs.compName.focus()
   },
 }
 </script>
@@ -43,8 +45,9 @@ export default {
         input.pu-input(
           v-model='category.name'
           placeholder='Name'
-          @keyup='onKeyup()'
-          @keypress.enter='shouldSave && bus.$emit("saveComp")'
+          @keyup='sendSavability()'
+          @keypress.enter='onSave'
+          ref='compName'
         )
     delete-comp
 

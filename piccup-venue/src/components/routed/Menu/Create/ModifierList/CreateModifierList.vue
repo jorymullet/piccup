@@ -54,6 +54,7 @@ export default {
   },
   mounted () {
     this.sendSavability()
+    this.$refs.compName.focus()
   },
 }
 </script>
@@ -68,6 +69,7 @@ export default {
           v-model='modifierList.name'
           placeholder='Name'
           @keyup='sendSavability()'
+          ref='compName'
         )
       .pu-header Selection Method
       .input-field
@@ -118,7 +120,6 @@ export default {
 <style lang="sass" scoped>
   @import '@/global/styles/form.sass'
   #create-modifier-list
-    height: 100%
     .pu-form
       .select-method
         margin: 10px 0

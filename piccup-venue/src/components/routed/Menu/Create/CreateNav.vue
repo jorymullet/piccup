@@ -7,9 +7,6 @@ export default {
     compType: {
       type: Object,
     },
-    isNew: {
-      type: Boolean,
-    },
   },
   data () {
     return {
@@ -17,9 +14,17 @@ export default {
     }
   },
   computed: {
-    bus () {
-      return bus
-    }
+    isNew () {
+      return this.$store.state.isNew
+    },
+  },
+  methods: {
+    onSave () {
+      if (this.shouldSave) {
+        const saveType = this.isNew ? 'create' : 'update'
+        bus.$emit('crudComp', saveType)
+      }
+    },
   },
   created () {
     bus.$on('savability', (shouldSave) => {
@@ -36,7 +41,7 @@ export default {
         i.dead-center.material-icons arrow_back
       .title.dead-center {{isNew ? 'create' : 'edit'}} {{compType.short}}
       .save-button(
-        @click='shouldSave && bus.$emit("saveComp")'
+        @click='onSave()'
         :class='shouldSave ? "save" : "dont-save"'
         ) SAVE
 </template>
@@ -50,6 +55,7 @@ export default {
     box-shadow: 0 0 5px 0 lightgrey
     position: fixed
     width: 100%
+    z-index: $create-nav-index
     .nav-holder
       height: 100%
       display: flex
