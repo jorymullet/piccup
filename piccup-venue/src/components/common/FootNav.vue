@@ -1,18 +1,30 @@
 <script>
 let tabs;
 export default {
+  name: 'FootNav',
   data () {
     return {
       navLinks: [
         {
           id: 'menu',
+          destination: 'Menu',
           icon: 'web',
+        },
+        {
+          id: 'orders',
+          destination: 'Orders',
+          icon: 'dashboard',
         },
       ],
       activeLink: 'menu',
     }
   },
-  name: 'FootNav',
+  methods: {
+    onLinkClick (link) {
+      this.activeLink = link.id
+      this.$router.push({name: link.destination})
+    },
+  },
   mounted () {
     const el = document.getElementById('#nav-tabs')
     const options = {}
@@ -28,7 +40,7 @@ export default {
         li.tab.col(
           :class='"s" + (12 / navLinks.length)'
           v-for='link in navLinks'
-          @click='activeLink=link.id'
+          @click='onLinkClick(link)'
           )
           a.click-me(
             :class='activeLink === link.id ? "active" : "inactive"'

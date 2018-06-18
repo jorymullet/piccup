@@ -22,7 +22,6 @@ export default {
     onSave () {
       if (this.shouldSave) {
         const saveType = this.isNew ? 'create' : 'update'
-        console.log(saveType)
         bus.$emit('crudComp', saveType)
       }
     },

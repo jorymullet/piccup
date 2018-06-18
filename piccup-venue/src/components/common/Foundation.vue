@@ -1,11 +1,14 @@
 <script>
 import FootNav from '$common/FootNav'
+import Loading from '$common/Loading'
 export default {
   name: 'Foundation',
   components: {
     'foot-nav': FootNav,
+    'loading': Loading,
   },
   mounted () {
+    this.$store.commit('showLoading')
     this.$router.push({name: 'Menu'})
   },
 }
@@ -13,6 +16,7 @@ export default {
 
 <template lang="pug">
   #foundation
+    loading
     foot-nav
     router-view
 </template>

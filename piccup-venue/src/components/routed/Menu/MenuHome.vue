@@ -44,14 +44,6 @@ export default {
       seeCreateShell: false,
     }
   },
-  firestore () {
-    return {
-      items: db.collection('venues').doc('zen-cafe').collection('items'),
-      modifiers: db.collection('venues').doc('zen-cafe').collection('modifiers'),
-      modifier_lists: db.collection('venues').doc('zen-cafe').collection('modifier_lists'),
-      categories: db.collection('venues').doc('zen-cafe').collection('categories'),
-    }
-  },
   computed: {
     menu () {
       return {
@@ -92,12 +84,24 @@ export default {
         if(key) this.$firestore[this.compTypeInfo.id].doc(key).update(this.editComp)
       }
       this.seeCreateShell = false
-    }
+    },
+    prepareFirestore () {
+      let count = 0
+      this.compTypes.forEach((compType) => {
+        count++
+        this.$binding(compType.id, db.collection('venues').doc('zen-cafe').collection(compType.id))
+          .then(() => {
+            if(count === this.compTypes.length) this.$store.commit('hideLoading')
+          })
+      })
+    },
   },
   created () {
+    this.$store.commit('showLoading')
     this.chosenCompType = this.compTypes[0]
     bus.$on('crudComp', this.crudComp)
     bus.$on('showCreateShell', this.showCreateShell)
+    this.prepareFirestore()
   },
 }
 </script>

@@ -9,6 +9,7 @@ export default new Vuex.Store({
     editComp: {},
     compTypeInfo: {},
     isNew: false,
+    seeLoading: false,
   },
   mutations: {
     setEditComp (state, editComp) {
@@ -19,6 +20,12 @@ export default new Vuex.Store({
     },
     setCompTypeInfo (state, compTypeInfo) {
       state.compTypeInfo = compTypeInfo
+    },
+    showLoading (state) {
+      state.seeLoading = true
+    },
+    hideLoading (state) {
+      state.seeLoading = false
     },
   },
 })
