@@ -43,9 +43,9 @@ export default {
 </script>
 
 <template lang="pug">
-  #menu-nav.row
+  #menu-nav.top-nav.row
       .col.s12
-        ul#menu-tabs.tabs
+        ul#menu-tabs.top-tabs.tabs
           li.tab.col(
             :class='"s" + (12 / menuLinks.length)'
             v-for='link in menuLinks'
@@ -60,27 +60,7 @@ export default {
 <style lang="sass" scoped>
 @import 'vars'
 @import 'helpers'
-#menu-nav
-  position: fixed
-  width: 100%
-  z-index: $menu-nav-index
-  height: $menu-nav-height
-  .col
-    padding: 0
-    #menu-tabs
-      background-color: lighten($background-color, 10%)
-      box-shadow: 0px 0px 5px 0px lightgrey
-      li
-        a
-          color: black
-          text-transform: capitalize
-          font-size: .8em
-        .active
-          opacity: 1
-        .inactive
-          opacity: .7
-      li.indicator
-        background-color: black
+@import '@/global/styles/nav.sass'
 
 </style>
 

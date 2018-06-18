@@ -10,6 +10,9 @@ export default new Vuex.Store({
     compTypeInfo: {},
     isNew: false,
     seeLoading: false,
+    ordersType: {
+      id: 'current',
+    },
   },
   mutations: {
     setEditComp (state, editComp) {
@@ -20,6 +23,9 @@ export default new Vuex.Store({
     },
     setCompTypeInfo (state, compTypeInfo) {
       state.compTypeInfo = compTypeInfo
+    },
+    setOrdersType (state, ordersType) {
+      state.ordersType = ordersType
     },
     showLoading (state) {
       state.seeLoading = true

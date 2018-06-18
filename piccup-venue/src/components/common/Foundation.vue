@@ -9,7 +9,7 @@ export default {
   },
   mounted () {
     this.$store.commit('showLoading')
-    this.$router.push({name: 'Menu'})
+    this.$router.push({name: 'Orders'})
   },
 }
 </script>

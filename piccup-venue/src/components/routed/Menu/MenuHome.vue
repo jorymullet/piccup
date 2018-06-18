@@ -98,10 +98,10 @@ export default {
   },
   created () {
     this.$store.commit('showLoading')
+    this.prepareFirestore()
     this.chosenCompType = this.compTypes[0]
     bus.$on('crudComp', this.crudComp)
     bus.$on('showCreateShell', this.showCreateShell)
-    this.prepareFirestore()
   },
 }
 </script>
