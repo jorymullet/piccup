@@ -1,4 +1,6 @@
 <script>
+import bus from '@/global/eventBus.js'
+
 export default {
   name: 'CompList',
   props: {
@@ -9,6 +11,12 @@ export default {
       type: Array,
     },
   },
+  methods: {
+    onCompClick (comp) {
+      this.$store.commit('setEditComp', comp)
+      bus.$emit('showCreateShell', {new: false})
+    },
+  },
 }
 </script>
 
@@ -17,11 +25,12 @@ export default {
     .no-comps(
       v-if='!comps.length'
     ) 
-      .title No {{compType.id}} in library
-      .sub-title Start by clicking 'create {{compType.id}}' above
+      .title No {{compType.long}} in library
+      .sub-title Start by clicking 'create {{compType.long}}' above
     .comp-holder.col.s12(v-else)
       .comp.btn.waves-effect(
         v-for='comp in comps'
+        @click='onCompClick(comp)'
       )
         .comp-title {{comp.name}}
           i.material-icons.right arrow_forward

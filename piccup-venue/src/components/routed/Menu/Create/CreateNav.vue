@@ -1,14 +1,31 @@
 <script>
+import bus from '@/global/eventBus.js'
+
 export default {
   name: 'CreateNav',
   props: {
-    isNew: {
-      type: Boolean,
-    },
     compType: {
       type: Object,
     },
+    isNew: {
+      type: Boolean,
+    },
   },
+  data () {
+    return {
+      shouldSave: false,
+    }
+  },
+  computed: {
+    bus () {
+      return bus
+    }
+  },
+  created () {
+    bus.$on('savability', (shouldSave) => {
+      this.shouldSave = shouldSave
+    })
+  }
 }
 </script>
 
@@ -17,7 +34,11 @@ export default {
     .nav-holder
       .back-holder.click-me(@click='$emit("hideCreateShell")')
         i.dead-center.material-icons arrow_back
-      .title.dead-center  {{true ? 'create' : 'edit'}} {{compType.long}}
+      .title.dead-center {{isNew ? 'create' : 'edit'}} {{compType.short}}
+      .save-button(
+        @click='shouldSave && bus.$emit("saveComp")'
+        :class='shouldSave ? "save" : "dont-save"'
+        ) SAVE
 </template>
 
 <style lang="sass" scoped>
@@ -39,6 +60,20 @@ export default {
         width: $nav-height
       .title
         text-transform: capitalize
+      .save-button
+        height: $nav-height
+        line-height: $nav-height
+        padding: 0 10px
+        position: absolute
+        right: 0
+        color: white
+        font-weight: 600
+        transition: all .25s
+      .save
+        background-color: $primary-color
+      .dont-save
+        background-color: lightgrey
+
 
         
 </style>

@@ -1,38 +1,29 @@
 <script>
 import CreateNav from '$routed/Menu/Create/CreateNav'
-import CreateItem from '$routed/Menu/Create/CreateItem'
-
-import ItemModel from '@/global/models/item.js'
-import CategoryModel from '@/global/models/category.js'
-import ModifierListModel from '@/global/models/modifierList.js'
+import CreateItem from '$routed/Menu/Create/Item/CreateItem'
+import CreateCategory from '$routed/Menu/Create/Category/CreateCategory'
+import CreateModifierList from '$routed/Menu/Create/ModifierList/CreateModifierList'
+import bus from '@/global/eventBus.js'
 
 export default {
   name: 'CreateShell',
   components: {
     'create-nav': CreateNav,
     'create-item': CreateItem,
+    'create-category': CreateCategory,
+    'create-modifier-list': CreateModifierList,
+  },
+  computed: {
+    isNew () {
+      return this.$store.state.isNew
+    },
   },
   props: {
     compType: {
       type: Object,
     },
-    passedComp: {
+    menu: {
       type: Object,
-    },
-    isNew: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    models () {
-      return {
-        items: ItemModel,
-        categories: CategoryModel,
-        modifier_lists: ModifierListModel,
-      }
-    },
-    compToEdit () {
-      return this.isNew ? this.models[this.compType.id] : this.passedComp
     },
   },
 }
@@ -46,7 +37,19 @@ export default {
       :isNew='isNew'
       )
     #create-comp-holder.col.s10.offset-s1
-      create-item(:item='compToEdit')
+      create-item(
+        v-if='compType.id==="items"'
+        :isNew='isNew'
+        :menu='menu'
+        )
+      create-category(
+        v-if='compType.id==="categories"'
+        :isNew='isNew'
+        )
+      create-modifier-list(
+        v-if='compType.id==="modifier_lists"'
+        :isNew='isNew'
+        )
 </template>
 
 <style lang="sass" scoped>

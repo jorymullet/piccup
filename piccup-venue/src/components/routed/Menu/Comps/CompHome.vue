@@ -1,6 +1,12 @@
 <script>
 import CompList from '$routed/Menu/Comps/CompList'
 
+import ItemModel from '@/global/models/item.js'
+import CategoryModel from '@/global/models/category.js'
+import ModifierListModel from '@/global/models/modifierList.js'
+
+import bus from '@/global/eventBus.js'
+
 export default {
   name: 'CompHome',
   props: {
@@ -14,6 +20,21 @@ export default {
   components: {
     'comp-list': CompList,
   },
+  computed: {
+    models () {
+      return {
+        items: ItemModel,
+        categories: CategoryModel,
+        modifier_lists: ModifierListModel,
+      }
+    },
+  },
+  methods: {
+    onNewComp () {
+      this.$store.commit('setEditComp', this.models[this.compType.id])
+      bus.$emit('showCreateShell', {new: true})
+    },
+  },
 }
 </script>
 
@@ -21,7 +42,7 @@ export default {
   .comp-home.row
     .comp-home-container.col.s12
       .click-me.btn.waves-effect.waves-dark.col.s12(
-        @click='$emit("showCreateShell", {new: true})'
+        @click='onNewComp()'
         )
         | create {{compType.short}}
       comp-list(:compType='compType', :comps='menu[compType.id]')

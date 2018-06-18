@@ -1,0 +1,52 @@
+@import 'vars'
+  
+$focus-color: $primary-color
+  
+$input-border: thin lightgrey solid
+$input-border-focus: thin $focus-color solid
+  
+.pu-input, .pu-input[type=number]
+  border: none
+  border-bottom: $input-border
+  font-size: 1em
+
+.pu-input:focus
+  border-bottom: $input-border-focus !important
+  box-shadow: 0 1px 0 0 $focus-color !important
+
+.pu-input.no-focus:focus
+  border-bottom: $input-border !important
+  box-shadow: none !important
+
+.pu-input.no-border:focus
+  border-bottom: none !important
+  box-shadow: none !important
+
+[type="checkbox"].filled-in:checked+span:not(.lever):after
+  background-color: $blue
+  border-color: $blue
+
+.pu-header
+  font-size: 1.1em
+  font-weight: 600
+  margin-top: 20px
+
+.comp-info
+  margin-top: 25px
+  margin-bottom: 25px
+  .comp-name
+    text-align: center
+    width: max-content
+    min-width: 100px
+    margin: 0 auto
+    font-size: 1.2em
+    font-weight: 600
+    border-bottom: thin grey solid
+
+.tiny-explain
+  color: $blue
+  font-size: .8em
+
+
+  
+  

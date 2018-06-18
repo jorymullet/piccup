@@ -3,6 +3,7 @@ import MenuNav from '$routed/Menu/MenuNav'
 import CompHome from '$routed/Menu/Comps/CompHome'
 import CreateShell from '$routed/Menu/Create/CreateShell'
 import { db } from '@/main.js'
+import bus from '@/global/eventBus.js'
 
 export default {
   name: 'MenuHome',
@@ -46,11 +47,10 @@ export default {
   },
   firestore () {
     return {
-      venues: db.collection('venues'),
-      items: db.collection('venues').doc('zen-cafe').collection('items').orderBy('id'),
-      modifiers: db.collection('venues').doc('zen-cafe').collection('modifiers').orderBy('id'),
-      modifier_lists: db.collection('venues').doc('zen-cafe').collection('modifier_lists').orderBy('id'),
-      categories: db.collection('venues').doc('zen-cafe').collection('categories').orderBy('id'),
+      items: db.collection('venues').doc('zen-cafe').collection('items'),
+      modifiers: db.collection('venues').doc('zen-cafe').collection('modifiers'),
+      modifier_lists: db.collection('venues').doc('zen-cafe').collection('modifier_lists'),
+      categories: db.collection('venues').doc('zen-cafe').collection('categories'),
     }
   },
   computed: {
@@ -58,6 +58,12 @@ export default {
       return {
         items: this.items, modifiers: this.modifiers, modifier_lists: this.modifier_lists, categories: this.categories,
       }
+    },
+    editComp () {
+      return this.$store.state.editComp
+    },
+    compTypeInfo () {
+      return this.$store.state.compTypeInfo
     },
   },
   methods: {
@@ -68,12 +74,25 @@ export default {
     },
     showCreateShell (options) {
       this.seeCreateShell = true
-      this.isNew = options.new
+      this.$store.commit('setIsNew', options.new)
       M.updateTextFields()
+    },
+    saveComp (compType) {
+      this.$firestore[this.compTypeInfo.id].add(this.editComp)
+      this.seeCreateShell = false
+    },
+    deleteComp () {
+      this.$firestore[this.compTypeInfo.id].doc(this.editComp['.key']).delete()
+      this.seeCreateShell = false
     },
   },
   created () {
     this.chosenCompType = this.compTypes[0]
+    bus.$on('saveComp', (compType) => {
+      this.saveComp(compType)
+    })
+    bus.$on('showCreateShell', this.showCreateShell)
+    bus.$on('deleteComp', this.deleteComp)
   },
 }
 </script>
@@ -85,8 +104,8 @@ export default {
       create-shell(
         v-if='seeCreateShell'
         :compType='chosenCompType'
-        :isNew='isNew'
         @hideCreateShell='seeCreateShell=false'
+        :menu='menu'
         )
     transition-group#comp-home-holder(
       tag='div'
@@ -98,7 +117,6 @@ export default {
         :key='compType.id' 
         :compType='compType'
         :menu='menu'
-        @showCreateShell='showCreateShell'
         )
 </template>
 
@@ -129,5 +147,3 @@ export default {
       width: 100%
       background-color: $background-color
 </style>
-
-

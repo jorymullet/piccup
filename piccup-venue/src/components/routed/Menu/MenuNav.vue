@@ -9,24 +9,35 @@ export default {
         {
           id: 'items',
           icon: 'menu',
-          name: 'items'
+          name: 'items',
+          short: 'item',
         },
         {
           id: 'modifier_lists',
           icon: 'menu',
           name: 'modifiers',
+          short: 'modifier',
         },
         {
           id: 'categories',
           icon: 'menu',
           name: 'categories',
+          short: 'category',
         },
       ],
       activeLink: 'items',
     }
   },
+  methods: {
+    onMenuTabClick (link) {
+      this.activeLink = link.id
+      this.$emit("onTabClick", link.id)
+      this.$store.commit('setCompTypeInfo', link)
+    },
+  },
   mounted () {
     M.AutoInit()
+    this.onMenuTabClick(this.menuLinks[0])
   },
 }
 </script>
@@ -38,7 +49,7 @@ export default {
           li.tab.col(
             :class='"s" + (12 / menuLinks.length)'
             v-for='link in menuLinks'
-            @click='(activeLink=link.id) && $emit("onTabClick",link.id)'
+            @click='onMenuTabClick(link)'
             )
             a.click-me(
               :class='activeLink === link.id ? "active" : "inactive"'

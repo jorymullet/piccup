@@ -1,18 +1,24 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { db } from '@/main.js'
-import firebase from 'firebase'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    
+    editComp: {},
+    compTypeInfo: {},
+    isNew: false,
   },
   mutations: {
-    
-  },
-  actions: {
-    
+    setEditComp (state, editComp) {
+      state.editComp = JSON.parse(JSON.stringify(editComp))
+    },
+    setIsNew (state, isNew) {
+      state.isNew = isNew
+    },
+    setCompTypeInfo (state, compTypeInfo) {
+      state.compTypeInfo = compTypeInfo
+    },
   },
 })

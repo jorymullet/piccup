@@ -9,7 +9,6 @@ import VueFirestore from 'vue-firestore'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-Vue.use(Vuex)
 Vue.use(VueFirestore)
 
 firebase.initializeApp({
