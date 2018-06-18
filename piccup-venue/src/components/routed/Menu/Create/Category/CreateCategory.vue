@@ -17,17 +17,14 @@ export default {
     isNew () {
       return this.$store.state.isNew
     },
+    bus () {
+      return bus
+    },
   },
   methods: {
     sendSavability () {
       bus.$emit('savability', this.shouldSave)
     },
-    onSave () {
-      if (this.shouldSave) {
-        const saveType = this.isNew ? 'create' : 'update'
-        bus.$emit('crudComp', saveType)
-      }
-    }
   },
   mounted () {
     this.sendSavability()
@@ -46,7 +43,6 @@ export default {
           v-model='category.name'
           placeholder='Name'
           @keyup='sendSavability()'
-          @keypress.enter='onSave'
           ref='compName'
         )
     delete-comp

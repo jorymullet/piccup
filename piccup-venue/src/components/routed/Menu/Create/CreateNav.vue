@@ -22,6 +22,7 @@ export default {
     onSave () {
       if (this.shouldSave) {
         const saveType = this.isNew ? 'create' : 'update'
+        console.log(saveType)
         bus.$emit('crudComp', saveType)
       }
     },
@@ -30,6 +31,7 @@ export default {
     bus.$on('savability', (shouldSave) => {
       this.shouldSave = shouldSave
     })
+    bus.$on('saveComp', this.onSave)
   }
 }
 </script>

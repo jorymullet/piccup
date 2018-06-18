@@ -32,6 +32,9 @@ export default {
     shouldSave () {
       return !!this.item.name && !!this.item.variations.length
     },
+    bus () {
+      return bus
+    },
   },
   methods: {
     setVariationAmount (amount) {

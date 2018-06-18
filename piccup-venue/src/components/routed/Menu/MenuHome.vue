@@ -89,7 +89,7 @@ export default {
       else if(type === 'update') {
         const key = this.editComp['.key']
         delete this.editComp['.key']
-        this.$firestore[this.compTypeInfo.id].doc(key).update(this.editComp)
+        if(key) this.$firestore[this.compTypeInfo.id].doc(key).update(this.editComp)
       }
       this.seeCreateShell = false
     }
