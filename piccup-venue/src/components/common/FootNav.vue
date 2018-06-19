@@ -29,6 +29,7 @@ export default {
     const el = document.getElementById('#nav-tabs')
     const options = {}
     tabs = M.Tabs.init(el, options);
+    this.onLinkClick(this.navLinks[1])
   },
 }
 </script>

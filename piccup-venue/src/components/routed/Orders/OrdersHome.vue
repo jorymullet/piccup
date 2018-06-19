@@ -3,6 +3,7 @@ import OrdersNav from '$routed/Orders/OrdersNav'
 import CurrentHome from '$routed/Orders/Current/CurrentHome'
 import PastHome from '$routed/Orders/Past/PastHome'
 import { db } from '@/main.js'
+import bus from '@/global/eventBus.js'
 
 export default {
   name: 'OrdersHome',
@@ -24,13 +25,29 @@ export default {
   },
   methods: {
     prepareFirebase () {
-      this.$binding('orders', db.collection('orders').where('venue_id', '==', 'zen-cafe'))
-        .then(() => {this.$store.commit('hideLoading')})
+      db.collection('orders').where('venue_id', '==', 'zen-cafe')
+        .onSnapshot((querySnapshot) => {
+          this.orders = []
+          querySnapshot.forEach((doc) => {
+            let data = doc.data()
+            data['.key'] = doc.id
+            this.orders.push(data)
+          })
+          this.$store.commit('hideLoading')
+        })
     },
+    updateOrder (order, updates) {
+      const key = order['.key']
+      delete order['.key']
+      db.collection('orders').doc(key).update(updates)
+    }
   },
   created () {
     this.$store.commit('showLoading')
     this.prepareFirebase()
+    bus.$on('updateOrder', (updateObj) => {
+      this.updateOrder(updateObj.order, updateObj.updates)
+    })
   },
 }
 </script>
@@ -38,7 +55,7 @@ export default {
 <template lang="pug">
   #orders-home.row
     orders-nav
-    transition-group.order-group-holder.col.s12(
+    transition-group.order-group-holder.row(
       tag='div'
       :name='transitionName'
     )
@@ -60,7 +77,11 @@ export default {
   .order-group-holder
     position: relative
     top: $nav-height
+    height: 200px
+    padding: 0
     > *
+      position: absolute
+      width: 100%
 
 .orders-slide-left-enter-active, .orders-slide-right-enter-active, .orders-slide-left-leave-active, .orders-slide-right-leave-active,
   transition: transform .25s
